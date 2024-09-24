@@ -96,7 +96,7 @@ impl<R: Dim> Mul<VectorView<'_, Fp, R>> for &Graph {
 mod tests {
     use std::iter;
 
-    use nalgebra::{DMatrix, DVector, Dyn};
+    use nalgebra::{DVector, Dyn};
     use rand::{rngs::SmallRng, SeedableRng};
     use ark_ff::UniformRand;
 
@@ -106,7 +106,7 @@ mod tests {
 
     #[test]
     fn test_nalgebra_finishes() {
-        let vector = DVector::from_iterator(70, iter::from_fn(|| Some(1)));
+        let _ = DVector::from_iterator(70, iter::from_fn(|| Some(1)));
     }
 
     #[test]
