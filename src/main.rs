@@ -39,23 +39,30 @@ fn main() -> Result<(), Box<dyn Error>> {
 
         println!("Encoded real output.");
 
+        // The desired evaluation
         let desired_evaluation = Fp::rand(&mut rng);
+
+        // This evaluation vector represents an evaluation of the form x^0, x^1, ...
         let evaluation_point = Fp::rand(&mut rng);
         let evaluation_vector = DVector::from_iterator(
             N,
             iter::successors(Some(Fp::one()), |prev| Some(*prev * evaluation_point)).take(N),
         );
+
+        // This code woud instead generate an evaluation vector completely at random.
         //let evaluation_vector =
-         //   DVector::from_iterator(N, iter::from_fn(|| Some(Fp::rand(&mut rng))).take(N));
+        //   DVector::from_iterator(N, iter::from_fn(|| Some(Fp::rand(&mut rng))).take(N));
 
         println!("Prepared evaluation.");
 
-        // The indices to check equality at
+        // The indices to check equality at (J in the paper)
         let random_indices = expander.random_output_indices(COLUMNS_TO_OPEN, &mut rng);
 
         println!("Generated opening set.");
 
+        // The matrix BG^T, i.e. it encodes a message and also limits the output to the checked indices.
         let matrix = expander.matrix_checked_indices_from_input(&random_indices);
+        // This represents the part of E_C(y_1) that is actually checked
         let matrix_output = (&matrix) * (&input);
         assert_eq!(matrix_output.len(), COLUMNS_TO_OPEN);
         for (matrix_mul_output, index) in matrix_output.iter().zip(random_indices.iter()) {
@@ -92,7 +99,7 @@ fn main() -> Result<(), Box<dyn Error>> {
             assert_eq!(encoding[index], output[index]);
         }
         // ... and finally check the evaluation!
-        //assert_eq!(evaluation_vector.dot(&forged_message), desired_evaluation);
+        assert_eq!(evaluation_vector.dot(&forged_message), desired_evaluation);
 
         openings += 1;
         println!("Found opening!");
