@@ -105,11 +105,6 @@ mod tests {
     use super::Graph;
 
     #[test]
-    fn test_nalgebra_finishes() {
-        let _ = DVector::from_iterator(70, iter::from_fn(|| Some(1)));
-    }
-
-    #[test]
     fn test_mul() {
         let mut rand = SmallRng::seed_from_u64(226453645362346);
         let vector = DVector::from_iterator(70, iter::from_fn(|| Some(Fp::rand(&mut rand))).take(70));

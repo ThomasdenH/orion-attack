@@ -10,7 +10,7 @@ use num_traits::{Zero, One};
 use orion_rust::primefield::Fp;
 use orion_rust::solve::solve_ax_is_b;
 
-use orion_rust::expander::Expander;
+use orion_rust::spielman::Expander;
 
 const COLUMNS_TO_OPEN: usize = 1568;
 const N: usize = 1 << 11;

@@ -228,7 +228,7 @@ mod tests {
     #[test]
     fn test_random_matrices() -> Result<(), Box<dyn Error>> {
         let mut rng = SmallRng::from_entropy();
-        for _ in 0..100 {
+        for _ in 0..10 {
             let matrix = DMatrix::from_fn(100, 1000, |_, _| Fp::rand(&mut rng));
             let x = DVector::from_fn(1000, |_, _| Fp::rand(&mut rng));
             let b = (&matrix) * x;

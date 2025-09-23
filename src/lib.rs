@@ -1,8 +1,7 @@
 pub mod graph;
 pub mod primefield;
-mod encode;
 pub mod solve;
-pub mod expander;
+pub mod spielman;
 
 #[derive(Copy, Clone, Debug, PartialEq)]
 pub struct Config {
