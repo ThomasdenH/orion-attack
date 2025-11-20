@@ -6,7 +6,7 @@ use std::error::Error;
 use std::iter;
 
 use ark_ff::UniformRand;
-use num_traits::{Zero, One};
+use num_traits::{One, Zero};
 use orion_rust::primefield::Fp;
 use orion_rust::solve::solve_ax_is_b;
 
@@ -15,9 +15,24 @@ use orion_rust::spielman::Expander;
 const COLUMNS_TO_OPEN: usize = 1568;
 const N: usize = 1 << 11;
 
+/// This function demonstrates the attack described in Section 3. In brief, we
+/// want to find a codeword that matches with the expected codeword at some
+/// locations in index set J, and that has an inner product with x_1 equal to
+/// some evaluation. In principle, this is as easy as setting
+/// c_1   [ (G^T)_1 ]
+/// ...
+/// c_n   [ (G^T)_n ]
+/// y   = [ x_1     ] * x,
+/// filtering out the indices i for which c_i is not checked, and solving.
+///
+/// However, G is a very large matrix and is defined recursively. Instead we
+/// use B to select the indices, and then compute BG^T by applying the
+/// recursive layers of G^T to B. The result is a smaller system that is much
+/// easier to solve.
+///
+/// Because we don't want to invert the generator matrix
 fn main() -> Result<(), Box<dyn Error>> {
     let iterations = 100;
-    let mut openings = 0;
     for i in 0..iterations {
         let config = Config::default();
         let mut rng = &mut SmallRng::from_entropy();
@@ -101,14 +116,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         // ... and finally check the evaluation!
         assert_eq!(evaluation_vector.dot(&forged_message), desired_evaluation);
 
-        openings += 1;
         println!("Found opening!");
-        println!(
-            "Opened {} of {} ({}%)",
-            openings,
-            i + 1,
-            100.0 * (openings as f64) / (i + 1) as f64
-        );
     }
 
     Ok(())

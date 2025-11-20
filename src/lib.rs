@@ -16,7 +16,7 @@ pub struct Config {
 }
 
 impl Default for Config {
-    fn default() -> Self {    
+    fn default() -> Self {
         const TARGET_DISTANCE: f64 = 0.07;
         const DISTANCE_THRESHOLD: usize = (1.0 / TARGET_DISTANCE) as usize - 1;
         //const RS_RATE: u32 = 2;
@@ -32,7 +32,7 @@ impl Default for Config {
             cn: CN,
             alpha: ALPHA,
             r: R,
-            target_distance: TARGET_DISTANCE
+            target_distance: TARGET_DISTANCE,
         }
     }
 }

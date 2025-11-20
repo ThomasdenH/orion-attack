@@ -235,11 +235,10 @@ where {
 
     /// Get a vector with random indices to open the output of this expander at.
     pub fn random_output_indices(&self, count: usize, rng: &mut impl Rng) -> Vec<usize> {
-            let mut set = HashSet::new();
-            while set.len() < count {
-                set.insert(rng.gen_range(0..self.output_size()));
-            }
-            set.into_iter().collect()
-        
+        let mut set = HashSet::new();
+        while set.len() < count {
+            set.insert(rng.gen_range(0..self.output_size()));
+        }
+        set.into_iter().collect()
     }
 }

@@ -96,9 +96,9 @@ impl<R: Dim> Mul<VectorView<'_, Fp, R>> for &Graph {
 mod tests {
     use std::iter;
 
+    use ark_ff::UniformRand;
     use nalgebra::{DVector, Dyn};
     use rand::{rngs::SmallRng, SeedableRng};
-    use ark_ff::UniformRand;
 
     use crate::primefield::Fp;
 
@@ -107,7 +107,8 @@ mod tests {
     #[test]
     fn test_mul() {
         let mut rand = SmallRng::seed_from_u64(226453645362346);
-        let vector = DVector::from_iterator(70, iter::from_fn(|| Some(Fp::rand(&mut rand))).take(70));
+        let vector =
+            DVector::from_iterator(70, iter::from_fn(|| Some(Fp::rand(&mut rand))).take(70));
         let graph = Graph::generate_random_expander(70, 10, 5, &mut rand);
         let result = &graph * vector.as_view::<Dyn, _, _, _>();
         assert_eq!(result.nrows(), 10);

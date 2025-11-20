@@ -50,13 +50,14 @@ where
         if let Some((pos, pivot)) = row_a
             .iter_mut()
             .enumerate()
-            .find(|(_pos, el)| !el.is_zero()) {
-                // If this pivot exist, we can adjust the solution. Otherwise,
-                // the entire row must be zero and therefore `b` is zero as well.
-                assert!(pivot.is_one());
-                solution[pos] -= current_solution[0];
-            }
-            assert_eq!(row_a * (&solution), sol_b);
+            .find(|(_pos, el)| !el.is_zero())
+        {
+            // If this pivot exist, we can adjust the solution. Otherwise,
+            // the entire row must be zero and therefore `b` is zero as well.
+            assert!(pivot.is_one());
+            solution[pos] -= current_solution[0];
+        }
+        assert_eq!(row_a * (&solution), sol_b);
     }
     assert_eq!(a * (&solution), b);
     Ok(solution)
